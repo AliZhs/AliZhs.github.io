@@ -1,0 +1,479 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>生成树协议 | Hello World 🐳</title><meta name="author" content="半岛铁盒"><meta name="copyright" content="半岛铁盒"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="生成树协议   二层环路带来的问题：广播风暴、MAC地址表震荡 生成树定义 STP(Spanning Tree Protocol)，用来解决二层环路问题  STPSTP相关概念BPDU 定义：桥协议 数据单元，用于传递STP协议相关报文 STP二层组播：01-80-C2 分类：  配置 BPDU	用于传递STP的配置信息 TCN BPDU	用于通告拓扑变更信息  STP的选举机制1.在所有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="生成树协议">
+<meta property="og:url" content="http://www.zsss.cf/2022/07/01/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:site_name" content="Hello World 🐳">
+<meta property="og:description" content="生成树协议   二层环路带来的问题：广播风暴、MAC地址表震荡 生成树定义 STP(Spanning Tree Protocol)，用来解决二层环路问题  STPSTP相关概念BPDU 定义：桥协议 数据单元，用于传递STP协议相关报文 STP二层组播：01-80-C2 分类：  配置 BPDU	用于传递STP的配置信息 TCN BPDU	用于通告拓扑变更信息  STP的选举机制1.在所有">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.zsss.cf/images/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/01.jpg">
+<meta property="article:published_time" content="2022-07-01T03:04:06.000Z">
+<meta property="article:modified_time" content="2022-11-24T08:32:52.744Z">
+<meta property="article:author" content="半岛铁盒">
+<meta property="article:tag" content="H3C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.zsss.cf/images/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/01.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.zsss.cf/2022/07/01/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?089ae243d838c5dea0f45ce8c4cae9ca";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 半岛铁盒","link":"链接: ","source":"来源: Hello World 🐳","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '生成树协议',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-11-24 16:32:52'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">118</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-fw fa fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li><li><a class="site-page child" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/images/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/01.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hello World 🐳</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-fw fa fa-book"></i><span> 文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li><li><a class="site-page child" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">生成树协议</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-01T03:04:06.000Z" title="发表于 2022-07-01 11:04:06">2022-07-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-24T08:32:52.744Z" title="更新于 2022-11-24 16:32:52">2022-11-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C/">网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="生成树协议"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><br />
+
+<br />
+
+<p style="text-align:center;color:red;font-size:1.5em;font-weight: bold;">生成树协议
+
+<p><img src="/images/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/01.jpg"></p>
+<p><em>二层环路带来的问题</em>：<em><strong>广播风暴、MAC地址表震荡</strong></em></p>
+<h3 id="生成树定义"><a href="#生成树定义" class="headerlink" title="生成树定义"></a>生成树定义</h3><ul>
+<li><em>STP(Spanning Tree Protocol)，用来解决二层环路问题</em></li>
+</ul>
+<h3 id="STP"><a href="#STP" class="headerlink" title="STP"></a>STP</h3><h4 id="STP相关概念"><a href="#STP相关概念" class="headerlink" title="STP相关概念"></a>STP相关概念</h4><p>BPDU</p>
+<p><em><strong>定义</strong></em>：<em>桥协议 数据单元，用于传递STP协议相关报文</em></p>
+<p>STP二层组播：<strong>01-80-C2</strong></p>
+<p><em><strong>分类</strong></em>：</p>
+<ul>
+<li><em>配置 BPDU	用于传递STP的配置信息</em></li>
+<li><em>TCN BPDU	用于通告拓扑变更信息</em></li>
+</ul>
+<h4 id="STP的选举机制"><a href="#STP的选举机制" class="headerlink" title="STP的选举机制"></a>STP的选举机制</h4><p>1.<code>在所有交换机中选举出一台作为根网桥(Root bridge)</code></p>
+<ul>
+<li><p><code>选举规则</code>	<em>Bridge-id小的优先</em></p>
+</li>
+<li><p><code>Bridge-id</code>	</p>
+</li>
+<li><p><code>定义</code>	<em>Bridge-id，用来标识交换机身份</em></p>
+</li>
+<li><p><code>格式</code>	<em>优先级+Mac地址，优先级默认为32768，必须是4096的倍数</em></p>
+</li>
+</ul>
+<p>2.<code>每台非根网桥(交换机)选举出一个根端口(Root Port)</code></p>
+<p><code>选举规则</code></p>
+<ul>
+<li><em>到达根网桥开销小的优先</em></li>
+<li><em>对端交换机Bridge-ID小的优先</em></li>
+<li><em>端口ID小的优先</em></li>
+</ul>
+<p><code>开销</code>	  <em>Cost，代表路径耗费的代价和成本，带宽越大，开销越小</em></p>
+<p>3.<code>每个物理段上选举出一个指定端口(Designated port)</code> </p>
+<p><code>选举规则</code></p>
+<ul>
+<li><em>到达根网桥开销小的优先</em></li>
+<li><em>本机Bridge-ID小的优先</em></li>
+<li><em>端口ID小的优先</em></li>
+</ul>
+<p>4.<code>剩下没有角色的端口就是阻塞端口（Blocked Port）</code></p>
+<h4 id="STP初始化流程"><a href="#STP初始化流程" class="headerlink" title="STP初始化流程"></a>STP初始化流程</h4><h5 id="交换机端口状态"><a href="#交换机端口状态" class="headerlink" title="交换机端口状态"></a>交换机端口状态</h5><ul>
+<li><em>disable：禁用状态，被关闭的端口</em></li>
+<li><em>blocking：阻塞状态		接收BPDU(学习数据报文)，但不发送BPDU，不学习Mac地址，不转发数据</em></li>
+<li><em>listening：监听状态		接收并发送BPDU，不学习Mac地址，不转发数据，持续15秒。此状态下进行选举</em></li>
+<li><em>learning：学习状态		接收并发送BPDU，学习Mac地址，不转发数据，持续15秒</em></li>
+<li><em>forwarding：转发状态      接收并发送BPDU，学习Mac地址，转发数据</em></li>
+</ul>
+<h4 id="STP计时器"><a href="#STP计时器" class="headerlink" title="STP计时器"></a>STP计时器</h4><ul>
+<li><em>Hello Time     2秒，配置BPDU的发送周期</em></li>
+<li><em>Max age	20秒，判断链路故障的时间，10个Hello time周期</em></li>
+<li><em>Forwarding delay	15,状态切换延迟</em></li>
+</ul>
+<h4 id="STP拓扑变更机制"><a href="#STP拓扑变更机制" class="headerlink" title="STP拓扑变更机制"></a>STP拓扑变更机制</h4><ul>
+<li><em>1.Max age超时（接口挂了）&#x2F;有接口变更为转发状态，判断为拓扑发生变更，向根网桥发起TCN BPDU</em></li>
+<li><em>2.收到TCN BPDU的交换机继续向根网桥转发TCN BPDU，到达根网桥为止</em></li>
+<li><em>3.根网桥收到TCN BPDU后，向所有端口发起TC置位的配置BPDU</em></li>
+<li><em>4.交换机收到TC置位的配置BPDU后，Mac地址表的老化时间缩短到15秒</em></li>
+</ul>
+<h4 id="STP的问题"><a href="#STP的问题" class="headerlink" title="STP的问题"></a>STP的问题</h4><ul>
+<li><em>收敛速度慢，故障切换时间长</em></li>
+<li><em>网络中大量主机频繁上下线，会导致TCN BPDU以及TC置为BPDU大量发送</em></li>
+</ul>
+<h4 id="STP常用命令"><a href="#STP常用命令" class="headerlink" title="STP常用命令"></a>STP常用命令</h4><ul>
+<li><em>[h3c]display stp		查看STP相关信息</em></li>
+<li><em>[h3c]display stp brief		查看STP端口状态</em></li>
+<li><em>[h3c]stp global enable 		全局启用STP</em></li>
+<li><em>[h3c-GigabitEthernet 1&#x2F;0&#x2F;1]undo stp enable 		关闭端口上STP</em></li>
+<li><em>[h3c]stp mode ‘stp&#x2F;rstp&#x2F;mstp’		更改STP模式，默认模式是mstp</em></li>
+<li><em>[h3c]stp priority ‘priority’		更改交换机优先级</em></li>
+<li><em>[h3c-GigabitEthernet 1&#x2F;0&#x2F;1]stp cost ‘cost’	更改接口生成树的cost</em></li>
+<li><em>[h3c-GigabitEthernet 1&#x2F;0&#x2F;1]stp edged-port	配置端口为边缘端口</em></li>
+</ul>
+<br />
+
+<h3 id="RSTP"><a href="#RSTP" class="headerlink" title="RSTP"></a>RSTP</h3><p><em>定义</em>：	<code>快速生成树协议，与STP基本思想一致，可兼容STP运行</code></p>
+<h4 id="与STP的区别"><a href="#与STP的区别" class="headerlink" title="与STP的区别"></a>与STP的区别</h4><ul>
+<li><p><em>端口状态减少到三种</em></p>
+<ul>
+<li><p>Discarding	不发送BPDU,不学习MAC地址，不转发数据</p>
+</li>
+<li><p>Learning     发送BPDU，学习MAC地址，不转发数据</p>
+</li>
+<li><p>Forwarding     发送BPDU，学习MAC地址，转发数据</p>
+</li>
+</ul>
+</li>
+<li><p><em>端口角色添加到四种</em></p>
+<ul>
+<li><p><em>根端口和指定端口不变</em></p>
+</li>
+<li><p><em>阻塞端口细分为2种</em></p>
+<ul>
+<li><em>替代端口（Alternata port）根端口的备份</em></li>
+<li><em>备份端口（Backup Port）指定端口的备份</em></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/02.jpg"></p>
+<h4 id="RSTP的快速收敛机制"><a href="#RSTP的快速收敛机制" class="headerlink" title="RSTP的快速收敛机制"></a>RSTP的快速收敛机制</h4><ul>
+<li><em>边缘端口机制</em><ul>
+<li><p><em>当链路激活，边缘端口立即进入转发状态，不参与STP计算</em></p>
+</li>
+<li><p><em>边缘端口UP&#x2F;DOWN不会触发拓扑变更</em></p>
+</li>
+<li><p><em>边缘端口收到BPDU，会转变为非边缘端口</em></p>
+</li>
+</ul>
+</li>
+<li>根端口的快速切换<ul>
+<li>根端口故障后，如果新的根端口对端的指定端口处于转发转发状态，则新的根端口立即进入转发状态</li>
+</ul>
+</li>
+<li>指定端口的快速切换   <strong>P&#x2F;A机制</strong><ul>
+<li><strong>i</strong>.  SW1新增链路或故障链路恢复，指定端口要进入转发状态之前，向对端SW2发送Proposal报文</li>
+<li><strong>ii</strong>.  SW2收到Proposal报文后，立即进行同步操作<ul>
+<li>同步是指阻塞除边缘端口以外的所有端口，为了防止环路</li>
+</ul>
+</li>
+<li><strong>iii</strong>.   同步完成后，向对端SW1发送Agreement报文</li>
+<li><strong>iv</strong>.    收到Agreement报文后，SW1的指定端口进入转发状态</li>
+</ul>
+</li>
+</ul>
+<h4 id="RSTP的拓扑改变处理机制"><a href="#RSTP的拓扑改变处理机制" class="headerlink" title="RSTP的拓扑改变处理机制"></a>RSTP的拓扑改变处理机制</h4><p>处理机制</p>
+<ul>
+<li>只有非边缘端口转变为Forwarding，才产生拓扑改变</li>
+<li>拓扑变更后，向所有其他指定端口和根端口发送TC置位BPDU</li>
+<li>收到TC置位BPDU，清楚其他所有端口学习的MAC地址</li>
+</ul>
+<p>注意</p>
+<ul>
+<li>由于每台交换机都可以主动发起RST BPDU,所以取消了TCN机制</li>
+</ul>
+<p><img src="/images/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/03.jpg"></p>
+<br />
+
+<h3 id="MSTP"><a href="#MSTP" class="headerlink" title="MSTP"></a>MSTP</h3><p><em>STP&#x2F;RSTP的缺陷</em>：<code>所有VLAN共享一颗生成树</code></p>
+<p><code>阻塞链路被完全浪费，无法实现不同VLAN在多链路上负载分担</code></p>
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><ul>
+<li>多生成树协议</li>
+<li>基于实例计算出多颗生成树，实例间实现负载分担</li>
+</ul>
+<h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p><img src="/images/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/04.jpg"></p>
+<h4 id="MSTP配置要点"><a href="#MSTP配置要点" class="headerlink" title="MSTP配置要点"></a>MSTP配置要点</h4><ul>
+<li><code>MST配置完成或修改MST配置后，一定要激活配置才能生效</code></li>
+</ul>
+<h4 id="MSTP兼容性"><a href="#MSTP兼容性" class="headerlink" title="MSTP兼容性"></a>MSTP兼容性</h4><p><img src="/images/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/05.jpg"></p>
+<h3 id="STP保护机制"><a href="#STP保护机制" class="headerlink" title="STP保护机制"></a>STP保护机制</h3><p><img src="/images/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/06.jpg"></p>
+<h4 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h4><p><code>[h3c]stp-region-configuration		#进入MST域配置模式</code></p>
+<p><code>[h3c-mst-region]region-name &#39;name&#39;		#配置MST域名</code></p>
+<p><code>[h3c-mst-region]revision-level &#39;level&#39;		#配置修订级别</code></p>
+<p><code>[h3c-mst-region]instance &#39;instance-id&#39; vlan &#39;vlan-list&#39;	#配置实例和VLAN映射关系</code></p>
+<p><code>[h3c-mst-region]active region-configuration		#激活MST配置</code></p>
+<p><code>[h3c]stp instance &#39;instance-id&#39; root &#39;primary/secondary&#39;		#配置交换机为实例的主备根</code></p>
+<p><code>[h3c]display region-configuration 		#查看MST域配置</code></p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>生成树协议</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://www.zsss.cf/2022/07/01/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/">http://www.zsss.cf/2022/07/01/生成树协议/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>半岛铁盒</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2022-07-01</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2022-11-24</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/H3C/">H3C</a></div><div class="post_share"><div class="social-share" data-image="/images/%E7%94%9F%E6%88%90%E6%A0%91%E5%8D%8F%E8%AE%AE/01.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/imgnew/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/imgnew/wechat.jpg" alt="Wechat"/></a><div class="post-qr-code-desc">Wechat</div></li><li class="reward-item"><a href="/imgnew/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/imgnew/alipay.jpg" alt="Alipay"/></a><div class="post-qr-code-desc">Alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/06/30/HCL%E4%B9%8BVlan%E5%92%8CTrunk%E5%AE%9E%E9%AA%8C/"><img class="prev-cover" src="/images/HCL%E4%B9%8BVlan%E5%92%8CTrunk%E5%AE%9E%E9%AA%8C/01.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">HCL之Vlan和Trunk实验</div></div></a></div><div class="next-post pull-right"><a href="/2022/07/01/HCL%E4%B9%8BSTP%E5%AE%9E%E9%AA%8C/"><img class="next-cover" src="/images/HCL%E4%B9%8BSTp%E5%AE%9E%E9%AA%8C/01.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">STP实验</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">半岛铁盒</div><div class="author-info__description">追求源于热爱，极致源于梦想</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">118</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:AliZhs@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://wpa.qq.com/wpa_jump_page?v=3&amp;uin=2782046497&amp;site=qq&amp;menu=yes%20%20%20eg%EF%BC%9Ahttp://wpa.qq.com/msgrd?v=3&amp;uin=1186154608&amp;site=qq&amp;menu=yes" target="_blank" title="QQ"><i class="fab fa-qq"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><img src="/images/杂图/taikong.svg"></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/11/10/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="学习笔记"><img src="/images/%E6%9D%82%E5%9B%BE/%E8%A1%A8%E6%83%85%E5%8C%8502.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="学习笔记"/></a><div class="content"><a class="title" href="/2022/11/10/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="学习笔记">学习笔记</a><time datetime="2022-11-10T08:05:10.000Z" title="发表于 2022-11-10 16:05:10">2022-11-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/08/dvwa%E4%B9%8B%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="dvwa之文件上传与文件包含"><img src="/images/dvwa%E4%B9%8B%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/01.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="dvwa之文件上传与文件包含"/></a><div class="content"><a class="title" href="/2022/11/08/dvwa%E4%B9%8B%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="dvwa之文件上传与文件包含">dvwa之文件上传与文件包含</a><time datetime="2022-11-08T11:39:38.000Z" title="发表于 2022-11-08 19:39:38">2022-11-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/02/kali%E4%B9%8B%E7%A0%B4%E8%A7%A3%E4%B8%BB%E6%9C%BA%E5%AF%86%E7%A0%81/" title="kali之破解主机密码"><img src="/images/kali%E4%B9%8B%E7%A0%B4%E8%A7%A3%E4%B8%BB%E6%9C%BA%E5%AF%86%E7%A0%81/04.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="kali之破解主机密码"/></a><div class="content"><a class="title" href="/2022/11/02/kali%E4%B9%8B%E7%A0%B4%E8%A7%A3%E4%B8%BB%E6%9C%BA%E5%AF%86%E7%A0%81/" title="kali之破解主机密码">kali之破解主机密码</a><time datetime="2022-11-02T08:36:58.000Z" title="发表于 2022-11-02 16:36:58">2022-11-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/27/nmap%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/" title="nmap端口扫描"><img src="/images/nmap%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/03.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nmap端口扫描"/></a><div class="content"><a class="title" href="/2022/10/27/nmap%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F/" title="nmap端口扫描">nmap端口扫描</a><time datetime="2022-10-27T06:27:56.000Z" title="发表于 2022-10-27 14:27:56">2022-10-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/19/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%E5%A4%A7%E8%B5%9BSDN%E8%AE%AD%E7%BB%83%E9%A2%98%E5%BA%93/" title="网络技术大赛SDN训练题库"><img src="/images/%E5%BD%B1%E8%A7%86%E5%89%A7%E7%85%A7/%E9%9B%84%E5%B8%88%E5%B0%91%E5%B9%B47.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="网络技术大赛SDN训练题库"/></a><div class="content"><a class="title" href="/2022/10/19/%E7%BD%91%E7%BB%9C%E6%8A%80%E6%9C%AF%E5%A4%A7%E8%B5%9BSDN%E8%AE%AD%E7%BB%83%E9%A2%98%E5%BA%93/" title="网络技术大赛SDN训练题库">网络技术大赛SDN训练题库</a><time datetime="2022-10-19T10:15:46.000Z" title="发表于 2022-10-19 18:15:46">2022-10-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 半岛铁盒</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Carpe Diem.<p><a target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a>&nbsp;<a target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "><img src="https://img.shields.io/badge/Hosted-Vervel-brightgreen?style=flat&logo=Vercel" title="本站采用双线部署，默认线路托管于Vercel"></a>&nbsp;<a target="_blank" href="https://vercel.com/ "></a>&nbsp;<a target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><div class="aplayer no-destroy" data-id="7402268081" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="true" muted></div> <canvas id="universe"></canvas> <script defer src="/js/universe.js"></script> <script src="//code.bdstatic.com/npm/leancloud-storage@4.12.0/dist/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["meta[property=\"og:image\"]","meta[property=\"og:title\"]","meta[property=\"og:url\"]","head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var qweather_key = 'b16a1fa0e63c46a4b8f28abfb06ae3fe';
+  var gaud_map_key = 'e2b04289e870b005374ee030148d64fd&s=rsv3';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '113.34532,23.15624';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/02/15/爬山记/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/images/日照天台山/tian002.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-02-15</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/02/15/爬山记/&quot;);" href="javascript:void(0);" alt="">爬山记</a><div class="blog-slider__text">日照天台山</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/02/15/爬山记/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/10/09/打卡山东博物馆/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/images/打卡山东博物馆/03.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-10-09</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/10/09/打卡山东博物馆/&quot;);" href="javascript:void(0);" alt="">打卡——山东博物馆</a><div class="blog-slider__text">山东博物馆</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/10/09/打卡山东博物馆/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/03/11/2022运动记录/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/images/2022.运动记录/强风吹拂.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-03-11</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/03/11/2022运动记录/&quot;);" href="javascript:void(0);" alt="">2022.运动记录</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/03/11/2022运动记录/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
