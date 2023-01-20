@@ -171,7 +171,7 @@
     })(window)</script><link rel="stylesheet" href="/css/custom.css"><div class="dengl"><div class="d-box"><div class="d1"><span></span><span><p></p></span><ul><li></li><li> </li><li><span></span></li><li> </li><li> </li></ul></div><div class="d2"><span></span><span><p></p></span><ul><li></li><li> </li><li><span></span></li><li> </li><li> </li></ul></div></div><div class="d-box1"><div class="d1"><span></span><span><p></p></span><ul><li></li><li> </li><li><span></span></li><li> </li><li> </li></ul></div><div class="d2"><span></span><span><p></p></span><ul><li></li><li> </li><li><span></span></li><li> </li><li>  </li></ul></div></div></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
 <style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
   white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
-<link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+<link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
   endLoading: () => {
     document.body.style.overflow = 'auto';
     document.getElementById('loading-box').classList.add("loaded")
@@ -208,7 +208,7 @@ if (true) {
 </li>
 </ul>
 <h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="项目一"><a href="#项目一" class="headerlink" title="项目一"></a>项目一</h2><p>1.配置🙀</p>
-<p><strong>&#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf</strong><br><code>ServerRoot &quot;/etc/httpd&quot;</code>	#设置Apache的根目录为&#x2F;etc&#x2F;httpd<br><code>Listen 80</code>						#设置http侦听端口为80<br><code>ServerAdmin AliZhs@outlook.com</code>		#设置管理员E-mail地址为<a href="mailto:&#65;&#108;&#105;&#90;&#104;&#115;&#64;&#x6f;&#117;&#x74;&#108;&#x6f;&#x6f;&#107;&#x2e;&#99;&#x6f;&#109;">&#65;&#108;&#105;&#90;&#104;&#115;&#64;&#x6f;&#117;&#x74;&#108;&#x6f;&#x6f;&#107;&#x2e;&#99;&#x6f;&#109;</a><br><code>ServerName 192.168.22.110</code>		#设置web服务器的主机名<br><code>DocumentRoot &quot;/var/www/html&quot;</code>	#设置网页文档的存放位置<br><code>DirectoryIndex index.html</code>		#指定首页文件的名称</p>
+<p><strong>&#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf</strong><br><code>ServerRoot &quot;/etc/httpd&quot;</code>	#设置Apache的根目录为&#x2F;etc&#x2F;httpd<br><code>Listen 80</code>						#设置http侦听端口为80<br><code>ServerAdmin AliZhs@outlook.com</code>		#设置管理员E-mail地址为<a href="mailto:&#65;&#108;&#105;&#x5a;&#x68;&#115;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#x6b;&#46;&#99;&#111;&#109;">&#65;&#108;&#105;&#x5a;&#x68;&#115;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#x6b;&#46;&#99;&#111;&#109;</a><br><code>ServerName 192.168.22.110</code>		#设置web服务器的主机名<br><code>DocumentRoot &quot;/var/www/html&quot;</code>	#设置网页文档的存放位置<br><code>DirectoryIndex index.html</code>		#指定首页文件的名称</p>
 <p>2.创建首页文件🙀</p>
 <p><strong>&#x2F;var&#x2F;www&#x2F;html</strong></p>
 <p><code>[root@jw2031-122 html]# echo &quot;welcome to test index&quot; &gt; index.html</code>			#写入<br><code>[root@jw2031-122 html]# apachectl configtest</code>			#测试配置文件<br><code>Syntax OK</code></p>
@@ -382,7 +382,23 @@ document.addEventListener('pjax:error', (e) => {
   if (e.request.status === 404) {
     pjax.loadUrl('/404.html')
   }
-})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '800ms');
+    arr[i].setAttribute('data-wow-delay', '800ms');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax>
   function butterfly_clock_anzhiyu_injector_config(){
     var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
     var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
@@ -413,23 +429,7 @@ document.addEventListener('pjax:error', (e) => {
   else if (epage === cpage){
     butterfly_clock_anzhiyu_injector_config();
   }
-  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
-for(var i = 0;i<arr.length;i++){
-    arr[i].classList.add('wow');
-    arr[i].classList.add('animate__zoomIn');
-    arr[i].setAttribute('data-wow-duration', '800ms');
-    arr[i].setAttribute('data-wow-delay', '800ms');
-    arr[i].setAttribute('data-wow-offset', '100');
-    arr[i].setAttribute('data-wow-iteration', '1');
-  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
-for(var i = 0;i<arr.length;i++){
-    arr[i].classList.add('wow');
-    arr[i].classList.add('animate__zoomIn');
-    arr[i].setAttribute('data-wow-duration', '');
-    arr[i].setAttribute('data-wow-delay', '');
-    arr[i].setAttribute('data-wow-offset', '');
-    arr[i].setAttribute('data-wow-iteration', '');
-  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax>
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script data-pjax>
   function butterfly_swiper_injector_config(){
     var parent_div_git = document.getElementById('recent-posts');
     var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/02/15/爬山记/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/images/日照天台山/tian002.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-02-15</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/02/15/爬山记/&quot;);" href="javascript:void(0);" alt="">爬山记</a><div class="blog-slider__text">日照天台山</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/02/15/爬山记/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2022/10/09/打卡山东博物馆/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src="/images/打卡山东博物馆/03.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-10-09</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2022/10/09/打卡山东博物馆/&quot;);" href="javascript:void(0);" alt="">打卡——山东博物馆</a><div class="blog-slider__text">山东博物馆</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2022/10/09/打卡山东博物馆/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
